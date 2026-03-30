@@ -17,6 +17,9 @@ def create_app():
 
     from routes.servicio_routes import servicio_routes
     from routes.citas_route import cita_routes
+    # Agrega este print temporal en app.py o run.py para ver qué está leyendo realmente
+    from config import Config
+    print(f"DATABASE URI USADA: {Config.SQLALCHEMY_DATABASE_URI}")
 
     app.register_blueprint(cita_routes, url_prefix='/api')
     app.register_blueprint(servicio_routes, url_prefix='/api')

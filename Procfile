@@ -1,1 +1,1 @@
-web: gunicorn run:app
+web: rm -rf __pycache__ && gunicorn run:app
