@@ -11,10 +11,8 @@ def get_servicios():
     servicios = Servicio.query.all()
     return jsonify([{
         "id": s.id,
-        "paciente_id": s.paciente_id,
         "nombre_servicio": s.nombre_servicio,
-        "precio": s.precio,
-        "fecha": str(s.fecha)
+        "precio": s.precio
     } for s in servicios]), 200
 
 
@@ -27,10 +25,8 @@ def get_servicio(id):
 
     return jsonify({
         "id": servicio.id,
-        "paciente_id": servicio.paciente_id,
         "nombre_servicio": servicio.nombre_servicio,
-        "precio": servicio.precio,
-        "fecha": str(servicio.fecha)
+        "precio": servicio.precio
     }), 200
 
 
@@ -42,16 +38,9 @@ def add_servicio():
     if not data:
         return jsonify({"error": "Datos requeridos"}), 400
 
-    try:
-        fecha = datetime.strptime(data['fecha'], '%Y-%m-%d').date()
-    except:
-        return jsonify({"error": "Formato de fecha inválido"}), 400
-
     nuevo = Servicio(
-        paciente_id=data.get('paciente_id'),
         nombre_servicio=data.get('nombre_servicio'),
-        precio=data.get('precio'),
-        fecha=fecha
+        precio=data.get('precio')
     )
 
     db.session.add(nuevo)
@@ -68,11 +57,6 @@ def update_servicio(id):
         return jsonify({"error": "Servicio no encontrado"}), 404
 
     data = request.json
-
-    try:
-        servicio.fecha = datetime.strptime(data['fecha'], '%Y-%m-%d').date()
-    except:
-        return jsonify({"error": "Formato de fecha inválido"}), 400
 
     servicio.nombre_servicio = data.get('nombre_servicio')
     servicio.precio = data.get('precio')
