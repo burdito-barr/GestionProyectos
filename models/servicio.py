@@ -7,5 +7,4 @@ class Servicio(db.Model):
     nombre_servicio = db.Column(db.String(150), nullable=False)
     precio = db.Column(db.Float, nullable=False)
 
-
-
+citas = db.relationship('Cita', backref='servicio', lazy=True)

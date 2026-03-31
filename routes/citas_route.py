@@ -9,12 +9,20 @@ cita_routes = Blueprint('cita', __name__)
 @cita_routes.route('/citas', methods=['GET'])
 def get_citas():
     citas = Cita.query.all()
+
     return jsonify([{
         "id": c.id,
         "servicio_id": c.servicio_id,
         "fecha_cita": str(c.fecha_cita),
         "hora_cita": str(c.hora_cita),
-        "estado": c.estado
+        "estado": c.estado,
+
+        "servicio": {
+            "id": c.servicio.id,
+            "nombre_servicio": c.servicio.nombre_servicio,
+            "precio": c.servicio.precio
+        }
+
     } for c in citas]), 200
 
 
