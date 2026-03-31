@@ -5,7 +5,6 @@ from datetime import datetime
 
 cita_routes = Blueprint('cita', __name__)
 
-# 🔹 GET ALL
 @cita_routes.route('/citas', methods=['GET'])
 def get_citas():
     citas = Cita.query.all()
@@ -21,12 +20,11 @@ def get_citas():
             "id": c.servicio.id,
             "nombre_servicio": c.servicio.nombre_servicio,
             "precio": c.servicio.precio
-        }
+        } if c.servicio else None  
 
     } for c in citas]), 200
 
 
-# 🔹 GET BY ID
 @cita_routes.route('/citas/<int:id>', methods=['GET'])
 def get_cita(id):
     cita = Cita.query.get(id)
@@ -42,7 +40,6 @@ def get_cita(id):
     }), 200
 
 
-# 🔹 POST
 @cita_routes.route('/citas', methods=['POST'])
 def add_cita():
     data = request.json
@@ -78,7 +75,6 @@ def add_cita():
     return jsonify({"mensaje": "Cita creada"}), 201
 
 
-# 🔹 PUT
 @cita_routes.route('/citas/<int:id>', methods=['PUT'])
 def update_cita(id):
     cita = Cita.query.get(id)
