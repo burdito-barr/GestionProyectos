@@ -8,3 +8,4 @@ class Cita(db.Model):
     fecha_cita = db.Column(db.Date, nullable=False)
     hora_cita = db.Column(db.Time, nullable=False)
     estado = db.Column(db.String(50), nullable=False)
+    servicio = db.relationship('Servicio')

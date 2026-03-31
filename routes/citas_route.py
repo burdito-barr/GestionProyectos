@@ -5,24 +5,27 @@ from datetime import datetime
 
 cita_routes = Blueprint('cita', __name__)
 
+from models.citas import Cita
+from models.servicio import Servicio
+from database.db import db
+
 @cita_routes.route('/citas', methods=['GET'])
 def get_citas():
-    citas = Cita.query.all()
+    citas = db.session.query(Cita, Servicio)\
+        .join(Servicio, Cita.servicio_id == Servicio.id)\
+        .all()
 
     return jsonify([{
-        "id": c.id,
-        "servicio_id": c.servicio_id,
-        "fecha_cita": str(c.fecha_cita),
-        "hora_cita": str(c.hora_cita),
-        "estado": c.estado,
-
+        "id": c.Cita.id,
+        "fecha": str(c.Cita.fecha_cita),
+        "hora": str(c.Cita.hora_cita),
+        "estado": c.Cita.estado,
         "servicio": {
-            "id": c.servicio.id,
-            "nombre_servicio": c.servicio.nombre_servicio,
-            "precio": c.servicio.precio
-        } if c.servicio else None  
-
-    } for c in citas]), 200
+            "id": c.Servicio.id,
+            "nombre": c.Servicio.nombre_servicio,
+            "precio": c.Servicio.precio
+        }
+    } for c in citas])
 
 
 @cita_routes.route('/citas/<int:id>', methods=['GET'])
