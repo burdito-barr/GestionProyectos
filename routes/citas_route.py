@@ -16,16 +16,16 @@ def get_citas():
         .all()
 
     return jsonify([{
-        "id": c.Cita.id,
-        "fecha": str(c.Cita.fecha_cita),
-        "hora": str(c.Cita.hora_cita),
-        "estado": c.Cita.estado,
-        "servicio": {
-            "id": c.Servicio.id,
-            "nombre": c.Servicio.nombre_servicio,
-            "precio": c.Servicio.precio
-        }
-    } for c in citas])
+    "id": c.Cita.id,
+    "fecha_cita": str(c.Cita.fecha_cita),
+    "hora_cita": str(c.Cita.hora_cita),
+    "estado": c.Cita.estado,
+    "servicio": {
+        "id": c.Servicio.id,
+        "nombre_servicio": c.Servicio.nombre_servicio,
+        "precio": c.Servicio.precio
+    }
+} for c in citas])
 
 
 @cita_routes.route('/citas/<int:id>', methods=['GET'])
